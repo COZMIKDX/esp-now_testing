@@ -19,13 +19,13 @@ bool esp_now_manager::begin(bool sender, uint8_t channel, receive_callback user_
 
         // Init ESP-NOW
         if (esp_now_init() != 0) {
-        Serial.println("Error initializing ESP-NOW");
-        return;
+            Serial.println("Error initializing ESP-NOW");
+            return false;
         }
 
         esp_wifi_set_promiscuous(true);
         esp_wifi_set_channel(6, WIFI_SECOND_CHAN_NONE);
-        esp_wifi_set_promiscuous(true);
+        esp_wifi_set_promiscuous(false);
 
         if (sender) {
         esp_now_register_send_cb(user_send_callback);
@@ -57,15 +57,17 @@ bool esp_now_manager::begin(bool sender, uint8_t channel, receive_callback user_
 }
 
 #ifdef ESP32
-bool esp_now_manager::register_peer(uint8_t mac_addr, uint8_t channel, bool encrypted) {
-    esp_now_peer_info_t peer_info;
-    memcpy(peerInfo.peer_addr, mac_addr, 6);
-    peerInfo.channel = channel;
-    peerInfo.encrypt = encrypt;
+bool esp_now_manager::register_peer(uint8_t *mac_addr, uint8_t channel, bool encrypted) {
+    esp_now_peer_info_t peer_info = {};
+    memcpy(peer_info.peer_addr, mac_addr, 6);
+    peer_info.channel = channel;
+    peer_info.encrypt = encrypted;
 
-    if (esp_now_add_peer(&peerInfo) != ESP_OK){
+    if (esp_now_add_peer(&peer_info) != ESP_OK){
         Serial.println("Failed to add peer");
-        return;
+        return false;
+    }
+    return true;
 }
 #elif ESP8266
 bool esp_now_manager::register_peer(uint8_t *mac_addr, uint8_t role, uint8_t channel) {
@@ -79,7 +81,7 @@ bool esp_now_manager::register_peer(uint8_t *mac_addr, uint8_t role, uint8_t cha
 }
 #endif
 
-void esp_now_manager::read_mac_address(){
+void esp_now_manager::read_mac_address() {
   #ifdef ESP32
   uint8_t base_mac[6];
   esp_err_t ret = esp_wifi_get_mac(WIFI_IF_STA, base_mac);
