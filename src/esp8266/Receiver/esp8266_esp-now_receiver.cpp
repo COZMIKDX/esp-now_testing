@@ -11,6 +11,7 @@
 
 #include <ESP8266WiFi.h>
 #include <espnow.h>
+#include <esp_now_manager.hpp>
 
 // Structure example to receive data
 // Must match the sender structure
@@ -40,20 +41,7 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
 
-  // Init ESP-NOW
-  if (esp_now_init() != 0) {
-    Serial.println("Error initializing ESP-NOW");
-    return;
-  }
-
-  wifi_promiscuous_enable(1);
-  wifi_set_channel(6);
-  wifi_promiscuous_enable(0);
-  
-  // Once ESPNow is successfully Init, we will register for recv CB to
-  // get recv packer info
-  esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
-  esp_now_register_recv_cb(OnDataRecv);
+  esp_now_man.begin(false, 6, OnDataRecv, nullptr);
 
   pinMode(LED_BUILTIN, OUTPUT);
 }
