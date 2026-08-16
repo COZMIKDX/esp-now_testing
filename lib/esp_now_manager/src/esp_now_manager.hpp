@@ -9,8 +9,10 @@
 #endif
 
 #ifdef ESP32
-    typedef void (*send_callback)(const esp_now_send_info_t *tx_info, esp_now_send_status_t status);
-    typedef void (*receive_callback)(const esp_now_recv_info_t * esp_now_info, const uint8_t *data, int data_len);
+    // typedef void (*send_callback)(const esp_now_send_info_t *tx_info, esp_now_send_status_t status);
+    // typedef void (*receive_callback)(const esp_now_recv_info_t * esp_now_info, const uint8_t *data, int data_len);
+    typedef void (*send_callback)(const uint8_t *mac_addr, esp_now_send_status_t status);
+    typedef void (*receive_callback)(const uint8_t * mac_addr, const uint8_t *data, int data_len);
 #elif ESP8266
     typedef void (*send_callback)(uint8_t *mac_addr, uint8_t sendStatus);
     typedef void (*receive_callback)(uint8_t * mac, uint8_t *incomingData, uint8_t len);
