@@ -12,12 +12,7 @@
 #include <ESP8266WiFi.h>
 #include <espnow.h>
 #include <esp_now_manager.hpp>
-
-// Structure example to receive data
-// Must match the sender structure
-typedef struct struct_message {
-    char a[32];
-} struct_message;
+#include <packets.h>
 
 // Create a struct_message called myData
 struct_message myData;
@@ -49,7 +44,7 @@ void setup() {
 void loop() {
   if (newData) {
     Serial.print("Char: ");
-    Serial.println(myData.a);
+    Serial.println(myData.message);
     newData = false;
   }
   delay(100);
