@@ -34,10 +34,9 @@ void setup() {
   // Initialize Serial Monitor
   Serial.begin(115200);
   delay(2000);
-  Serial.println("ESPNow/Basic/Slave Example");
+  Serial.println("esp now basic receiver example");
   
   // Set device as a Wi-Fi Station
-  
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
 
