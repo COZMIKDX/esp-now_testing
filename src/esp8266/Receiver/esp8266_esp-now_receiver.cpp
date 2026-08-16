@@ -1,3 +1,6 @@
+// Original example credit below.
+// I have made some adjustment using my helper class library.
+
 /*
   Rui Santos
   Complete project details at https://RandomNerdTutorials.com/esp-now-esp8266-nodemcu-arduino-ide/
@@ -9,7 +12,7 @@
   copies or substantial portions of the Software.
 */
 
-#include <ESP8266WiFi.h>
+#include <ESP8266WiFi.h> 
 #include <espnow.h>
 #include <esp_now_manager.hpp>
 #include <packets.h>
