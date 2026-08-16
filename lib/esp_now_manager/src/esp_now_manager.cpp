@@ -38,7 +38,7 @@ bool esp_now_manager::begin(bool sender, uint8_t channel, receive_callback user_
         // Init ESP-NOW
         if (esp_now_init() != 0) {
             Serial.println("Error initializing ESP-NOW");
-            return;
+            return false;
         }
 
         wifi_promiscuous_enable(1);
@@ -53,6 +53,7 @@ bool esp_now_manager::begin(bool sender, uint8_t channel, receive_callback user_
             esp_now_register_recv_cb(user_receive_callback);
         }
     #endif
+    return true;
 }
 
 #ifdef ESP32
@@ -72,14 +73,15 @@ bool esp_now_manager::register_peer(uint8_t *mac_addr, uint8_t role, uint8_t cha
     
     if (status != 0) {
         Serial.println("Failed to add peer");
-        return;
+        return false;
     }
+    return true;
 }
 #endif
 
 void esp_now_manager::read_mac_address(){
-  uint8_t base_mac[6];
   #ifdef ESP32
+  uint8_t base_mac[6];
   esp_err_t ret = esp_wifi_get_mac(WIFI_IF_STA, base_mac);
   if (ret == ESP_OK) {
     Serial.printf("%02x:%02x:%02x:%02x:%02x:%02x\n",
