@@ -23,7 +23,7 @@ class esp_now_manager {
         esp_now_manager();
         bool begin(bool sender, uint8_t channel, receive_callback user_receive_callback, send_callback user_send_callback);
         #ifdef ESP32
-        bool register_peer(uint8_t mac_addr, uint8_t channel, bool encrypted);
+        bool register_peer(uint8_t *mac_addr, uint8_t channel, bool encrypted);
         #elif ESP8266
         bool register_peer(uint8_t *mac_addr, uint8_t role, uint8_t channel);
         #endif
