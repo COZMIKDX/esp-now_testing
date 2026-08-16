@@ -6,15 +6,11 @@
 */
 
 #include <Arduino.h>
-#include <esp_now.h>
 #include <WiFi.h>
+#include <esp_now.h>
 #include <esp_wifi.h>
-
-// Structure example to receive data
-// Must match the sender structure
-typedef struct struct_message {
-    char a[32];
-} struct_message;
+#include <esp_now_manager.hpp>
+#include <packets.h>
 
 // Create a struct_message called myData
 struct_message myData;
@@ -25,19 +21,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.print("Bytes received: ");
   Serial.println(len);
   Serial.print("Char: ");
-  Serial.println(myData.a);
-}
-
-void readMacAddress(){
-  uint8_t baseMac[6];
-  esp_err_t ret = esp_wifi_get_mac(WIFI_IF_STA, baseMac);
-  if (ret == ESP_OK) {
-    Serial.printf("%02x:%02x:%02x:%02x:%02x:%02x\n",
-                  baseMac[0], baseMac[1], baseMac[2],
-                  baseMac[3], baseMac[4], baseMac[5]);
-  } else {
-    Serial.println("Failed to read MAC address");
-  }
+  Serial.println(myData.message);
 }
  
 void setup() {
@@ -48,21 +32,8 @@ void setup() {
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
   
-  // Init ESP-NOW
-  if (esp_now_init() != ESP_OK) {
-    Serial.println("Error initializing ESP-NOW");
-    return;
-  }
-  
-  esp_wifi_set_promiscuous(true);
-  esp_wifi_set_channel(6, WIFI_SECOND_CHAN_NONE);
-  esp_wifi_set_promiscuous(true);
-
-  // Once ESPNow is successfully Init, we will register for recv CB to
-  // get recv packer info
-  esp_now_register_recv_cb(OnDataRecv);
-
-  readMacAddress();
+  esp_now_man.begin(false, 6, OnDataRecv, nullptr);
+  esp_now_man.read_mac_address();
 }
  
 void loop() {
