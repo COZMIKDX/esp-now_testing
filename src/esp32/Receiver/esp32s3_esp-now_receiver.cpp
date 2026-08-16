@@ -1,3 +1,6 @@
+// Original example credit below.
+// I have made some adjustment using my helper class library.
+
 /*
   Rui Santos & Sara Santos - Random Nerd Tutorials
   Complete project details at https://RandomNerdTutorials.com/esp-now-esp32-arduino-ide/  

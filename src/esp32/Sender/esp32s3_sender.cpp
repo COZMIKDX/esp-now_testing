@@ -1,3 +1,13 @@
+// Original example credit below.
+// I have made some adjustment using my helper class library.
+
+/*
+  Rui Santos & Sara Santos - Random Nerd Tutorials
+  Complete project details at https://RandomNerdTutorials.com/esp-now-esp32-arduino-ide/  
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
+
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
@@ -42,6 +52,8 @@ void setup() {
   WiFi.mode(WIFI_STA);
   // Not much difference between ESP32 and ESP8266.
   // The callback function parameters differ between the two, however.
+  // The first parameter specifies if this is a sender (true) or a receiver (false).
+  // At the moment this only affects which callback to be registered. Once I get around to two way communication, I'll adjust this. 
   esp_now_man.begin(true, 6, nullptr, OnDataSent);
   // For ESP32, register_peer requires mac, channel, and a bool for encrypted or not.
   esp_now_man.register_peer(cardputer_address, 6, false);
