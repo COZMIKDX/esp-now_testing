@@ -25,7 +25,7 @@ bool esp_now_manager::begin(bool sender, uint8_t channel, receive_callback user_
         }
 
         esp_wifi_set_promiscuous(true);
-        esp_wifi_set_channel(6, WIFI_SECOND_CHAN_NONE);
+        esp_wifi_set_channel(channel, WIFI_SECOND_CHAN_NONE);
         esp_wifi_set_promiscuous(false);
 
         if (sender) {
@@ -43,7 +43,7 @@ bool esp_now_manager::begin(bool sender, uint8_t channel, receive_callback user_
         }
 
         wifi_promiscuous_enable(1);
-        wifi_set_channel(6);
+        wifi_set_channel(channel);
         wifi_promiscuous_enable(0);
 
         if (sender) {
