@@ -1,7 +1,6 @@
 #ifndef ESP_NOW_MANAGER_H
 #define ESP_NOW_MANAGER_H
 
-#include <Arduino.h>
 #ifdef ESP32
     #include <esp_now.h>
 #elif ESP8266

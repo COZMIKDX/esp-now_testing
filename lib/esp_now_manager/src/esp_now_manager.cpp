@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "esp_now_manager.hpp"
 
 #ifdef ESP32
